@@ -1,0 +1,32 @@
+function Soln=thehuman(i)
+m1=28;m2=6;m3=28.5;m4=7;m5=5.4;
+k1=0;k2=187000;k3=208000;k4=250000;k5=310000;k6=103000;k7=183000;
+c1=0;c2=5190;c3=5400;c4=3585;c5=1400;c6=2370;c7=2850;
+syms s;
+A=[m1*s^2+(c1+c2+c4+c6)*s+(k1+k2+k4+k6),-c2*s-k2,0,-c4*s-k4,0;-c2*s-k2,m2*s^2+(c2+c3)*s+k2+k3,-c3*s-k3,0,0;0,-c3*s-k3,m3*s^2+(c3+c7)*s+k3+k7,-c7*s-k7,0;-c4*s-k4,0,-c7*s-k7,m4*s^2+(c4+c5+c7)*s+k4+k5+k7,-c5*s-k5;0,0,0,-c5*s-k5,m5*s^2+c5*s+k5];
+R=det(A);
+S=simplify(R);
+d=vpa(solve(S,'s'));
+svalues=[sqrt(d(1)*d(2)),sqrt(d(3)*d(4)),sqrt(d(5)*d(6)),sqrt(d(7)*d(8)),sqrt(d(9)*d(10))];
+syms a2 a3 a4 a5;
+B=[1;a2;a3;a4;a5];
+syms C;
+C=A*B;
+C=subs(C,s,svalues(i));
+D=[0;0;0;0;0];
+eqn1=C(1)==0;
+eqn2=C(2)==0;
+eqn3=C(3)==0;
+eqn4=C(4)==0;
+sol = solve([eqn1,eqn2,eqn3,eqn4],[a2,a3,a4,a5]);
+c=zeros(1,5);
+c(1)=1;
+c(2)=double(sol.a2);
+c(3)=double(sol.a3);
+c(4)=double(sol.a4);
+c(5)=double(sol.a5);
+t=1:1:5;
+plot(t,c);
+ylim([0,20]);
+xlim([1 5]);
+end
